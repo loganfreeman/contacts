@@ -1,11 +1,17 @@
 {
-	"name": "angular-todo",
-	"version": "0.0.1",
-	"description": "Simple Angular TODO app based in MEAN stack",
-	"main": "server.js",
-	"author": "Carlos Azaustre <cazaustre@gmail.com>",
-	"dependencies": {
-		"express": "~3.4.4",
-		"mongoose": "~3.6.2"
-	}
+  "name": "angular-todo",
+  "version": "0.0.1",
+  "description": "Simple Angular TODO app based in MEAN stack",
+  "main": "server.js",
+  "author": "Carlos Azaustre <cazaustre@gmail.com>",
+  "dependencies": {
+    "bluebird": "^2.9.32",
+    "express": "~3.4.4",
+    "fs": "0.0.2",
+    "load-grunt-tasks": "^3.2.0",
+    "mocha": "^2.2.5",
+    "mongoose": "~3.6.2",
+    "nodemon": "^1.3.7",
+    "path": "^0.11.14"
+  }
 }
