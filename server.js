@@ -32,6 +32,7 @@ app.get( '/api/contacts', function(req, res) { // GET de todos los TODOs
 } );
 
 app.post( '/api/contacts', function(req, res) {
+    console.log( req.body );
     Promise.resolve( Contact.create( req.body ) ).then( function(contact) {
         res.json( contact );
     } );

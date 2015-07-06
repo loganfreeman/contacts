@@ -3,6 +3,9 @@
 var mongoose = require( 'mongoose' ),
     Schema = mongoose.Schema;
 
+
+var uniqueValidator = require( 'mongoose-unique-validator' );
+
 var ContactSchema = new Schema( {
     firstname: {
         type: String
@@ -19,5 +22,7 @@ var ContactSchema = new Schema( {
 /**
  * Define model.
  */
+
+ContactSchema.plugin( uniqueValidator );
 
 mongoose.model( 'Contact', ContactSchema );

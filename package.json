@@ -9,9 +9,17 @@
     "express": "~3.4.4",
     "fs": "0.0.2",
     "load-grunt-tasks": "^3.2.0",
+    "lodash": "^3.10.0",
     "mocha": "^2.2.5",
-    "mongoose": "~3.6.2",
+    "mongoose": "^4.0.1",
+    "mongoose-unique-validator": "^0.4.1",
     "nodemon": "^1.3.7",
     "path": "^0.11.14"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "grunt-mocha-test": "^0.12.7",
+    "grunt-nodemon": "^0.4.0",
+    "mocha": "^2.2.5"
   }
 }
