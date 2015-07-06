@@ -1,9 +1,0 @@
-node_modules
-dist/scripts
-docs
-app/bower_components
-.tmp
-.sass-cache
-
-protractor_conf.js
-
