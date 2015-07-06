@@ -15,6 +15,10 @@ var ContactSchema = new Schema( {
     },
     phone: {
         type: String
+    },
+    email: {
+        type: String,
+        unique: true
     }
 } );
 

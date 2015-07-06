@@ -35,7 +35,10 @@ app.post( '/api/contacts', function(req, res) {
     console.log( req.body );
     Promise.resolve( Contact.create( req.body ) ).then( function(contact) {
         res.json( contact );
-    } );
+    } )
+        .catch( function(err) {
+            res.status( 500 ).send( err );
+        } );
 } );
 
 
