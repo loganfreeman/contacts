@@ -1,6 +1,6 @@
-Angular TODO
+Angular ContactList Application
 ============
-Simple TODO web application based in MEAN (Mongo, Express, Angular, Node) stack
+Simple Contact List web application based in MEAN (Mongo, Express, Angular, Node) stack
 
 ## Install
 ```shell

@@ -4,3 +4,4 @@ coverage
 .tmp
 .sass-cache
 public/bower_components
+results.txt
