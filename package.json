@@ -18,8 +18,23 @@
   },
   "devDependencies": {
     "chai": "^3.0.0",
+    "grunt-autoprefixer": "^3.0.3",
+    "grunt-bower-install": "^1.6.0",
+    "grunt-concurrent": "^2.0.0",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-compass": "^1.0.3",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-cssmin": "^0.12.3",
+    "grunt-contrib-htmlmin": "^0.4.0",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "^0.6.1",
     "grunt-mocha-test": "^0.12.7",
+    "grunt-ngmin": "0.0.3",
     "grunt-nodemon": "^0.4.0",
-    "mocha": "^2.2.5"
+    "grunt-rev": "^0.1.0",
+    "grunt-usemin": "^3.0.0",
+    "mocha": "^2.2.5",
+    "time-grunt": "^1.2.1"
   }
 }

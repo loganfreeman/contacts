@@ -1,0 +1,32 @@
+{
+  "name": "angular-keepr",
+  "authors": [
+    "Wilson Mendes <willmendesneto@gmail.com>"
+  ],
+  "main": "dist/keepr.js",
+  "license": "MIT",
+  "homepage": "https://github.com/willmendesneto/keepr",
+  "description": "KEEPR - A simple list of Angular components",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "~1.3"
+  },
+  "devDependencies": {
+    "yuidoc-bootstrap-theme": "https://github.com/kevinlacotaco/yuidoc-bootstrap-theme.git",
+    "angular-mocks": "~1.2.6",
+    "angular-scenario": "~1.2.6",
+    "angular-resource": "~1.2.6",
+    "angular-cookies": "~1.2.6",
+    "angular-sanitize": "~1.2.6",
+    "angular-route": "~1.2.6"
+  },
+  "_release": "0.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.1",
+    "commit": "06de5a652afc2ed1513ba94368df3460972b0825"
+  },
+  "_source": "git://github.com/willmendesneto/keepr.git",
+  "_target": "*",
+  "_originalSource": "angular-keepr"
+}

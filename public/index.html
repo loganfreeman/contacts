@@ -1,47 +1,85 @@
 <!doctype html>
-<html lang="en" ng-app="angularTodo">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Angular TODO app</title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-</head>
-<body ng-controller="mainController">
-	<div class="container">
-		<!--Cabecera-->
-		<div class="jumbotron text-center">
-			<h1>Angular TODO List <span class="label label-info">{{ todos.length }}</span></h1>
-		</div>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Quicksand:400,700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="angularContactsListApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
 
-		<!--Lista de Todos-->
-		<div id="todo-list" class="row">
-			<div class="col-sm-4 col-sm-offset-4">
-				<div class="checkbox" ng-repeat="todo in todos">
-					<label>
-						<input type="checkbox" ng-click="deleteTodo(todo._id)"> 
-						{{ todo.text }}
-					</label>
-				</div>
-			</div>
-		</div>
+    <navbar></navbar>
 
-		<!--Formulario para insertar nuevos Todo-->
-		<div id="todo-form" class="row">
-			<div class="col-sm-8 col-sm-offset-2 text-center">
-				<form>
-					<div class="form-group">
-						<input type="text" class="form-control input-lg text-center" 
-								placeholder="Inserta una tarea nueva"
-								ng-model="formData.text">
-					</div>
-					<button class="btn btn-primary btn-lg" ng-click="createTodo()">Añadir</button>
-				</form>
-			</div>
-		</div>
-	</div>
+    <!-- Add your site or application content here -->
+    <div class="container" ng-view=""></div>
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-	<script src="main.js"></script>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/tripledes.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+    <script>
+        window.angular || document.write('<script src="bower_components/angular/angular.min.js"><\/script>');
+    </script>
+
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/sass-bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-keepr/dist/keepr.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/commons/controllers/navbar.js"></script>
+    <script src="scripts/commons/directives/qs-focus.js"></script>
+    <script src="scripts/commons/directives/navbar.js"></script>
+    <script src="scripts/commons/filters/start-from.js"></script>
+    <script src="scripts/commons/services/contacts-service.js"></script>
+    <script src="scripts/commons/services/offline-model.js"></script>
+    <script src="scripts/commons/services/list-contacts.js"></script>
+    <script src="scripts/main/controllers/main.js"></script>
+    <script src="scripts/main/directives/qs-table.js"></script>
+    <script src="scripts/main/directives/qs-pagination.js"></script>
+    <script src="scripts/contacts/controllers/contacts.js"></script>
+    <script src="scripts/chart/controllers/chart.js"></script>
+    <!-- endbuild -->
+
 </body>
 </html>
