@@ -11,9 +11,10 @@
      */
     $scope.reset = function() {
       $scope.contact = {
-        name: '',
-        address: '',
-        phone: ''
+        firstname: '',
+        lastname: '',
+        phone: '',
+        address: ''
       };
     };
 
@@ -53,12 +54,8 @@
      * @param  {Object} item [description]
      * @return {[type]}      [description]
      */
-    $scope.save = function(item) {
-      if (typeof item._id !== 'undefined') {
-        $scope.update(item);
-      } else {
-        $scope.create(item);
-      }
+    $scope.save = function(form) {
+      console.log($scope.contact);
       $scope.reset();
     };
 
@@ -176,11 +173,11 @@
         return $http.post('/api/contacts', contact)
       }
 
-      this.delete = function(id){
+      this.delete = function(id) {
         return $http.delete('/api/contact/' + id);
       }
 
-      this.save = function(contact){
+      this.save = function(contact) {
         return $http.put('/api/contact/' + contact._id, contact);
       }
     })
@@ -191,6 +188,17 @@
           text: message
         });
       }
+    })
+    .directive('mongooseError', function() {
+      return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, element, attrs, ngModel) {
+          element.on('keydown', function() {
+            return ngModel.$setValidity('mongoose', true);
+          });
+        }
+      };
     });
 
 
