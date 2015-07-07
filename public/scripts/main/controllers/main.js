@@ -189,6 +189,8 @@
           displayName: 'address'
         }, {
           displayName: 'Actions',
+          minWidth: 250,
+          width: 250,
           cellTemplate: '<button class="btn btn-primary" ng-click="edit(row.entity, row.rowIndex)" ><i class="fa fa-edit"></i> Modify</button>&nbsp&nbsp<button class="btn btn-danger" ng-click="remove(row.entity, row.rowIndex)"><i class="fa fa-trash-o"></i> Delete</button>'
         }
 
