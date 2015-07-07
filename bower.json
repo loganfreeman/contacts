@@ -22,7 +22,8 @@
     "jquery": "~1.10.2",
     "sass-bootstrap": "~3.0.2",
     "angular-route": "1.2.6",
-    "angular-keepr": "*"
+    "angular-keepr": "*",
+    "ng-grid": "~2.0.14"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",

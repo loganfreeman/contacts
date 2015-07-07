@@ -12,11 +12,6 @@
                     controller: 'MainCtrl',
                     controllerAs: 'mainCtrl'
                 } )
-                .when( '/chart', {
-                    templateUrl: 'scripts/chart/views/index.html',
-                    controller: 'ChartCtrl'
-                    // controllerAs: 'contactsCtrl'
-                } )
                 .when( '/contacts', {
                     templateUrl: 'scripts/contacts/views/index.html',
                     controller: 'ContactsCtrl',
