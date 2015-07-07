@@ -2,7 +2,7 @@
 (function() {
   'use strict';
 
-  function MainCtrl($scope, $filter, AlertService, ContactsService) {
+  function MainCtrl($scope, $filter, ContactsService, AlertService) {
 
 
 
@@ -30,7 +30,7 @@
      */
     $scope.create = function(contact) {
       $scope.listContacts = ContactsService.create(contact);
-      AlertService.add('success', 'Contact "' + contact.name + '" created with success!', 5000);
+      AlertService.add('success', 'Contact "' + contact.name + '" created with success!');
     };
 
     /**
@@ -52,7 +52,7 @@
      */
     $scope.update = function(item) {
       $scope.listContacts = ContactsService.update(item);
-      AlertService.add('success', 'Contact "' + item.name + '" updated with success!', 5000);
+      AlertService.add('success', 'Contact "' + item.name + '" updated with success!');
     };
 
     /**
@@ -86,7 +86,7 @@
           $scope.listContacts = ContactsService.getListItems();
           return true;
         }
-        AlertService.add('error', 'Houston, we have a problem. This operation cannot be executed correctly.', 5000);
+        AlertService.add('error', 'Houston, we have a problem. This operation cannot be executed correctly.');
         return false;
       }
     };
@@ -126,7 +126,7 @@
     $scope.getPagedDataAsync = function(pageSize, page, searchText) {
       setTimeout(function() {
         var data = _.filter($scope.listContacts, function(item) {
-          return !(!!searchText) ||_.contains(item.name, searchText) || _.contains(item.address, searchText) || _.contains(item.phone, searchText)
+          return !(!!searchText) || _.contains(item.name, searchText) || _.contains(item.address, searchText) || _.contains(item.phone, searchText)
         })
         $scope.setPagingData(data, page, pageSize);
       }, 100);
@@ -158,20 +158,35 @@
      * Method for class initialization
      * @return {[type]} [description]
      */
-    $scope.init = function() {
-      $scope.listContacts = $scope.filteredData = ContactsService.getListItems();
+    $scope.init = function(items) {
+      $scope.listContacts = $scope.filteredData = items;
       $scope.reset();
       $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
 
     };
 
-    $scope.init();
+    Promise.resolve(ContactsService.getListItems())
+      .then(function(result) {
+        $scope.init(result.data);
+      })
 
   }
 
   angular.module('angularContactsListApp')
-    .controller('MainCtrl', MainCtrl);
+    .controller('MainCtrl', MainCtrl)
+    .service('ContactsService', function($http) {
+      this.getListItems = function() {
+        return $http.get('/api/contacts');
+      }
+    })
+    .service('AlertService', function(SweetAlert) {
+      this.alert = function(title, message) {
+        return SweetAlert.swal({
+          title: title,
+          text: message
+        });
+      }
+    });
 
-  MainCtrl.$inject = ['$scope', '$filter', 'AlertService', 'ContactsService'];
 
 }());

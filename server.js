@@ -9,9 +9,12 @@ require( './models' );
 
 var utils = require( './utils.js' );
 
+var config = require( './config.js' );
 
 
-var db = utils.connect();
+
+
+var db = utils.connect(config.mongo.database);
 
 var Contact = db.model( 'Contact' );
 

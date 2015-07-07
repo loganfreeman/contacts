@@ -1,5 +1,5 @@
 module.exports = {
     mongo: {
-        database: 'contacts'
+        database: 'dev'
     }
 };
