@@ -4,7 +4,8 @@
     angular.module( 'angularContactsListApp', [
         'ngRoute',
         'ngGrid',
-        'oitozero.ngSweetAlert'
+        'oitozero.ngSweetAlert',
+        'ui.bootstrap'
     ] )
         .config( function($routeProvider) {
             $routeProvider

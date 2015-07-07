@@ -2,7 +2,7 @@
 (function() {
   'use strict';
 
-  function MainCtrl($scope, $filter, ContactsService, AlertService) {
+  function MainCtrl($scope, $filter, ContactsService, AlertService, SweetAlert) {
 
 
 
@@ -18,6 +18,13 @@
       };
     };
 
+    $scope.reload = function() {
+      Promise.resolve(ContactsService.getListItems())
+        .then(function(result) {
+          $scope.init(result.data);
+        });
+    }
+
 
     /**
      * Add a listContacts in $scope.listContacts
@@ -26,46 +33,29 @@
       Promise.resolve(ContactsService.create($scope.contact))
         .then(function(result) {
           console.log(result.data);
+          $scope.reload();
         })
-        .catch(function(e) {
-          $scope.errors = e.data.errors;
-          angular.forEach($scope.errors, function(error, field) {
-            form[field].$setValidity('mongoose', false);
-          });
+
+      .catch(function(e) {
+        $scope.errors = e.data.errors;
+        angular.forEach($scope.errors, function(error, field) {
+          form[field].$setValidity('mongoose', false);
         });
+      });
     };
 
-    /**
-     * Editing a individual contact
-     * @param  {[type]} key [description]
-     * @return {[type]}     [description]
-     */
-    $scope.edit = function(key) {
-      $scope.contact = $filter('filter')($scope.listContacts, {
-        _id: key
-      })[0];
-      window.scrollTo(0, 0);
-    };
+
 
     /**
      * Update item
      * @param  {Object} item [description]
      * @return {[type]}      [description]
      */
-    $scope.update = function(item) {
-      $scope.listContacts = ContactsService.update(item);
-      AlertService.add('success', 'Contact "' + item.name + '" updated with success!');
+    $scope.edit = function(item, index) {
+      console.log(item);
     };
 
-    /**
-     * Add/edit method abstration
-     * @param  {Object} item [description]
-     * @return {[type]}      [description]
-     */
-    $scope.save = function(form) {
-      console.log($scope.contact);
 
-    };
 
     /**
      * [delete description]
@@ -73,30 +63,30 @@
      * @param  {Boolean} confirmation [description]
      * @return {Boolean}              [description]
      */
-    $scope.delete = function(index, confirmation) {
-      confirmation = (typeof confirmation !== 'undefined') ? confirmation : true;
-      if (confirmDelete(confirmation)) {
-        var message,
-          item = ContactsService.delete(index);
-        if (!!item) {
-          message = 'Contact "' + item.name + '" with id "' + item._id + '" was removed of your contact\'s list';
-          AlertService.add('success', message, 5000);
-          $scope.listContacts = ContactsService.getListItems();
-          return true;
+    $scope.remove = function(item, index) {
+      SweetAlert.swal({
+        title: 'Are you sure?',
+        html: true,
+        text: '<pre class=\'code\'>' + JSON.stringify(item) + '</pre>',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#DD6B55',
+        confirmButtonText: 'Yes, do it!',
+        closeOnConfirm: true
+      }, function(isConfirm) {
+        if (isConfirm) {
+
+
+          ContactsService.delete(item._id)
+            .then(function(result) {
+              $scope.reload();
+            })
+
         }
-        AlertService.add('error', 'Houston, we have a problem. This operation cannot be executed correctly.');
-        return false;
-      }
+      })
     };
 
-    /**
-     * Method for access "window.confirm" function
-     * @param  {Boolean} confirmation [description]
-     * @return {Boolean}              [description]
-     */
-    var confirmDelete = function(confirmation) {
-      return confirmation ? confirm('This action is irreversible. Do you want to delete this contact?') : true;
-    };
+    
 
 
 
@@ -124,7 +114,7 @@
     $scope.getPagedDataAsync = function(pageSize, page, searchText) {
       setTimeout(function() {
         var data = _.filter($scope.listContacts, function(item) {
-          return !(!!searchText) || _.contains(item.name, searchText) || _.contains(item.address, searchText) || _.contains(item.phone, searchText)
+          return !(!!searchText) || _.contains(item.email, searchText) || _.contains(item.address, searchText) || _.contains(item.phone, searchText)
         })
         $scope.setPagingData(data, page, pageSize);
       }, 100);
@@ -144,11 +134,37 @@
 
     $scope.gridOptions = {
       data: 'filteredData',
+      enableColumnResize: true,
       enablePaging: true,
       showFooter: true,
       totalServerItems: 'totalServerItems',
       pagingOptions: $scope.pagingOptions,
-      filterOptions: $scope.filterOptions
+      filterOptions: $scope.filterOptions,
+      rowTemplate: '<div style="height: 100%" >' +
+        '<div ng-repeat="col in renderedColumns" ng-class="col.colIndex()" class="ngCell ">' +
+        '<div ng-cell></div>' +
+        '</div>' +
+        '</div>',
+      columnDefs: [{
+          field: 'email',
+          displayName: 'EMail'
+        }, {
+          field: 'firstname',
+          displayName: 'First Name'
+        }, {
+          field: 'lastname',
+          displayName: 'Last Name'
+        }, {
+          field: 'address',
+          displayName: 'address'
+        }, {
+          displayName: 'Actions',
+          cellTemplate: '<button class="btn btn-primary" ng-click="edit(row.entity, row.rowIndex)" ><i class="fa fa-edit"></i> Modify</button>&nbsp&nbsp<button class="btn btn-danger" ng-click="remove(row.entity, row.rowIndex)"><i class="fa fa-trash-o"></i> Delete</button>'
+        }
+
+
+
+      ]
     };
 
 
