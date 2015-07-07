@@ -86,7 +86,7 @@
                 <div class='row'>
 
 
-                            <form>
+                            <form ng-submit="updateContact(contactform)" name='contactform'>
 
                             <div class="form-group">
                                         <label class="col-sm-4 control-label">First Name</label>
@@ -128,12 +128,20 @@
                                         </div>
                                     </div>
 
+                                     <div class="panel-footer">
+                            
+                            <div class="pull-left">
+                                <button type='submit' class="btn btn-success">Update Contact</button>
+                            </div>
+
+                            <div class='pull-right'>
+                                <button class="btn btn-warning" ng-click="cancel($event)">Cancel</button>
+                            </div>
+                        </div>
+
                             </form>
 
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="ok()">OK</button>
-                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-            </div>
+            
         </script>
