@@ -2,3 +2,7 @@
     border: 1px solid rgb(212,212,212);
     height: 300px;
 }
+
+.ng-invalid-mongoose {
+    border-color: red;
+}

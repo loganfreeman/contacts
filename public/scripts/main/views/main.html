@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <form class="form-horizontal" name="form" ng-submit="save(form)" >
+    <form class="form-horizontal" name="form" ng-submit="create(form)" >
       
                                     <div class="form-group">
                                         <label class="col-sm-4 control-label">First Name</label>
@@ -22,6 +22,14 @@
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" id="lastname" name='lastname' placeholder="Last Name"
                                                 ng-model="contact.lastname" mongoose-error required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">EMail</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="email" name='email' placeholder="Email"
+                                                ng-model="contact.email" mongoose-error required>
                                         </div>
                                     </div>
 

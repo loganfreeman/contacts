@@ -22,9 +22,17 @@
     /**
      * Add a listContacts in $scope.listContacts
      */
-    $scope.create = function(contact) {
-      $scope.listContacts = ContactsService.create(contact);
-      AlertService.add('success', 'Contact "' + contact.name + '" created with success!');
+    $scope.create = function(form) {
+      Promise.resolve(ContactsService.create($scope.contact))
+        .then(function(result) {
+          console.log(result.data);
+        })
+        .catch(function(e) {
+          $scope.errors = e.data.errors;
+          angular.forEach($scope.errors, function(error, field) {
+            form[field].$setValidity('mongoose', false);
+          });
+        });
     };
 
     /**
@@ -56,7 +64,7 @@
      */
     $scope.save = function(form) {
       console.log($scope.contact);
-      $scope.reset();
+
     };
 
     /**
