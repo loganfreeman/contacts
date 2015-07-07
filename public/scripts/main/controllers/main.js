@@ -17,13 +17,6 @@
       };
     };
 
-    /**
-     * Returns the number page based in params
-     * @return {[type]} [description]
-     */
-    $scope.numberOfPages = function() {
-      return Math.ceil($scope.listContacts.length / $scope.pageSize);
-    };
 
     /**
      * Add a listContacts in $scope.listContacts
@@ -168,7 +161,7 @@
     Promise.resolve(ContactsService.getListItems())
       .then(function(result) {
         $scope.init(result.data);
-      })
+      });
 
   }
 
@@ -177,6 +170,18 @@
     .service('ContactsService', function($http) {
       this.getListItems = function() {
         return $http.get('/api/contacts');
+      }
+
+      this.create = function(contact) {
+        return $http.post('/api/contacts', contact)
+      }
+
+      this.delete = function(id){
+        return $http.delete('/api/contact/' + id);
+      }
+
+      this.save = function(contact){
+        return $http.put('/api/contact/' + contact._id, contact);
       }
     })
     .service('AlertService', function(SweetAlert) {
