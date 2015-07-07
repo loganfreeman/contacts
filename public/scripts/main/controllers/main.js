@@ -4,6 +4,7 @@
 
   function MainCtrl($scope, $filter, ContactsService, AlertService, SweetAlert, $modal, $log) {
 
+    $scope.footerTemplate = '<div class="ngFooterTotalItems"><span class="ngLabel">{{i18n.ngTotalItemsLabel}} {{maxRows()}}</span><span ng-show="filterText.length > 0" class="ngLabel">({{i18n.ngShowingItemsLabel}} {{totalFilteredItemsLength()}})</span></div>';
 
 
     /**
@@ -163,6 +164,7 @@
     $scope.gridOptions = {
       data: 'filteredData',
       enableColumnResize: true,
+      multiSelect: false,
       enablePaging: true,
       showFooter: true,
       totalServerItems: 'totalServerItems',
