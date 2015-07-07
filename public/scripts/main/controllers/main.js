@@ -74,9 +74,10 @@
         //$scope.activeUser.stacks.push( selectedItem.stack );
         // $scope.activeUser.instances.push( selectedItem.instance );
         ContactsService
-          .save(contact._id, contact)
-          .then(function(res) {
+          .save(contact)
+          .then(function(result) {
             console.log(result.data);
+            $scope.reload();
           });
 
       }, function() {

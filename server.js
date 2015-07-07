@@ -51,6 +51,8 @@ app.delete('/api/contact/:id', function(req, res) {
 
 app.put('/api/contact/:id', function(req, res) {
 
+    delete req.body._id;
+
     Promise.resolve(Contact.update({
         _id: req.params.id
     }, req.body, {
