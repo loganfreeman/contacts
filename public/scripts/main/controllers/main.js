@@ -2,7 +2,7 @@
 (function() {
   'use strict';
 
-  function MainCtrl($scope, $filter, ContactsService, AlertService, SweetAlert) {
+  function MainCtrl($scope, $filter, ContactsService, AlertService, SweetAlert, $modal, $log) {
 
 
 
@@ -52,7 +52,36 @@
      * @return {[type]}      [description]
      */
     $scope.edit = function(item, index) {
-      console.log(item);
+      var modalInstance = $modal.open({
+        templateUrl: 'contact.html',
+        controller: function($scope, $modalInstance) {
+          $scope.contact = item;
+
+
+          $scope.ok = function() {
+            $modalInstance.close($scope.contact);
+          };
+
+          $scope.cancel = function() {
+            $modalInstance.dismiss('cancel');
+          };
+        },
+
+      });
+
+      modalInstance.result.then(function(contact) {
+        //$scope.selected = selectedItem;
+        //$scope.activeUser.stacks.push( selectedItem.stack );
+        // $scope.activeUser.instances.push( selectedItem.instance );
+        ContactsService
+          .save(contact._id, contact)
+          .then(function(res) {
+            console.log(result.data);
+          });
+
+      }, function() {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
     };
 
 
@@ -85,8 +114,6 @@
         }
       })
     };
-
-    
 
 
 
