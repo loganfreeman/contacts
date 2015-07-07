@@ -10,6 +10,23 @@ module.exports = function(grunt) {
     grunt.initConfig( {
         pkg: grunt.file.readJSON( 'package.json' ),
 
+        // Project settings
+        yeoman: {
+            // configurable paths
+            app: require( './bower.json' ).appPath || 'app',
+            dist: 'dist'
+        },
+
+        // Automatically inject Bower components into the app
+        bowerInstall: {
+            app: {
+                src: ['<%= yeoman.app %>/index.html'],
+                ignorePath: '<%= yeoman.app %>/',
+                exclude: [
+                ]
+            }
+        },
+
 
         // Configure a mochaTest task
         mochaTest: {
