@@ -6,5 +6,5 @@ Simple Contact List web application based in MEAN (Mongo, Express, Angular, Node
 ```shell
 npm install 
 bower install
-grunt build
+grunt nodemon
 
