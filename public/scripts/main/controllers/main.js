@@ -4,42 +4,13 @@
 
   function MainCtrl($scope, $filter, AlertService, ContactsService) {
 
-    /**
-     * Initial value of form
-     *
-     * @type {Array}
-     */
-    this.contact = [];
 
-    /**
-     * Order by verification for template
-     * @type {Boolean}
-     */
-    this.reverse = false;
-
-    /**
-     * field used for table ordenation
-     * @type {String}
-     */
-    this.predicate = 'name';
-
-    /**
-     * Limit to initial value
-     * @type {Number}
-     */
-    this.currentPage = 0;
-
-    /**
-     * Page quantity for data visualization
-     * @type {Number}
-     */
-    this.pageSize = 10;
 
     /**
      * Reset the form values
      */
-    this.reset = function() {
-      this.contact = {
+    $scope.reset = function() {
+      $scope.contact = {
         name: '',
         address: '',
         phone: ''
@@ -50,15 +21,15 @@
      * Returns the number page based in params
      * @return {[type]} [description]
      */
-    this.numberOfPages = function(){
-      return Math.ceil(this.listContacts.length/this.pageSize);
+    $scope.numberOfPages = function() {
+      return Math.ceil($scope.listContacts.length / $scope.pageSize);
     };
 
     /**
-     * Add a listContacts in this.listContacts
+     * Add a listContacts in $scope.listContacts
      */
-    this.create = function(contact){
-      this.listContacts = ContactsService.create(contact);
+    $scope.create = function(contact) {
+      $scope.listContacts = ContactsService.create(contact);
       AlertService.add('success', 'Contact "' + contact.name + '" created with success!', 5000);
     };
 
@@ -67,8 +38,10 @@
      * @param  {[type]} key [description]
      * @return {[type]}     [description]
      */
-    this.edit = function(key){
-      this.contact = $filter('filter')(this.listContacts, {_id: key})[0];
+    $scope.edit = function(key) {
+      $scope.contact = $filter('filter')($scope.listContacts, {
+        _id: key
+      })[0];
       window.scrollTo(0, 0);
     };
 
@@ -77,8 +50,8 @@
      * @param  {Object} item [description]
      * @return {[type]}      [description]
      */
-    this.update = function( item ) {
-      this.listContacts = ContactsService.update(item);
+    $scope.update = function(item) {
+      $scope.listContacts = ContactsService.update(item);
       AlertService.add('success', 'Contact "' + item.name + '" updated with success!', 5000);
     };
 
@@ -87,13 +60,13 @@
      * @param  {Object} item [description]
      * @return {[type]}      [description]
      */
-    this.save = function(item){
-      if(typeof item._id !== 'undefined'){
-        this.update(item);
+    $scope.save = function(item) {
+      if (typeof item._id !== 'undefined') {
+        $scope.update(item);
       } else {
-        this.create(item);
+        $scope.create(item);
       }
-      this.reset();
+      $scope.reset();
     };
 
     /**
@@ -102,15 +75,15 @@
      * @param  {Boolean} confirmation [description]
      * @return {Boolean}              [description]
      */
-    this.delete = function( index, confirmation ){
+    $scope.delete = function(index, confirmation) {
       confirmation = (typeof confirmation !== 'undefined') ? confirmation : true;
       if (confirmDelete(confirmation)) {
         var message,
-            item = ContactsService.delete(index);
+          item = ContactsService.delete(index);
         if (!!item) {
-          message = 'Contact "' + item.name + '" with id "' + item._id+ '" was removed of your contact\'s list';
+          message = 'Contact "' + item.name + '" with id "' + item._id + '" was removed of your contact\'s list';
           AlertService.add('success', message, 5000);
-          this.listContacts = ContactsService.getListItems();
+          $scope.listContacts = ContactsService.getListItems();
           return true;
         }
         AlertService.add('error', 'Houston, we have a problem. This operation cannot be executed correctly.', 5000);
@@ -123,20 +96,76 @@
      * @param  {Boolean} confirmation [description]
      * @return {Boolean}              [description]
      */
-    var confirmDelete = function(confirmation){
+    var confirmDelete = function(confirmation) {
       return confirmation ? confirm('This action is irreversible. Do you want to delete this contact?') : true;
     };
+
+
+
+    /**
+     * grid options
+     */
+
+    $scope.filterOptions = {
+      filterText: "",
+    };
+    $scope.totalServerItems = 0;
+    $scope.pagingOptions = {
+      pageSizes: [5, 10, 50],
+      pageSize: 5,
+      currentPage: 1
+    };
+    $scope.setPagingData = function(data, page, pageSize) {
+      var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
+      $scope.filteredData = pagedData;
+      $scope.totalServerItems = data.length;
+      if (!$scope.$$phase) {
+        $scope.$apply();
+      }
+    };
+    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
+      setTimeout(function() {
+        var data = _.filter($scope.listContacts, function(item) {
+          return !(!!searchText) ||_.contains(item.name, searchText) || _.contains(item.address, searchText) || _.contains(item.phone, searchText)
+        })
+        $scope.setPagingData(data, page, pageSize);
+      }, 100);
+    };
+
+
+    $scope.$watch('pagingOptions', function(newVal, oldVal) {
+      if (newVal.pageSize !== oldVal.pageSize || newVal.currentPage !== oldVal.currentPage) {
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+      }
+    }, true);
+    $scope.$watch('filterOptions', function(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+      }
+    }, true);
+
+    $scope.gridOptions = {
+      data: 'filteredData',
+      enablePaging: true,
+      showFooter: true,
+      totalServerItems: 'totalServerItems',
+      pagingOptions: $scope.pagingOptions,
+      filterOptions: $scope.filterOptions
+    };
+
 
     /**
      * Method for class initialization
      * @return {[type]} [description]
      */
-    this.init = function(){
-      this.listContacts = this.filteredData = ContactsService.getListItems();
-      this.reset();
+    $scope.init = function() {
+      $scope.listContacts = $scope.filteredData = ContactsService.getListItems();
+      $scope.reset();
+      $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+
     };
 
-    this.init();
+    $scope.init();
 
   }
 

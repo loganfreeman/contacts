@@ -45,25 +45,20 @@
       </fieldset>
     </form>
 
-    <form autocomplete="off" role="form">
-      <div class="form-group">
-        <fieldset>
-          <input type="search" name="search" id="search" placeholder="Search..." data-ng-model="mainCtrl.search" class="form-control" />
-        </fieldset>
-      </div>
-    </form>
-
     <div class="alert alert-warning fade in" data-ng-repeat="alert in mainCtrl.alerts track by $index">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true" data-ng-click="mainCtrl.closeAlertMessage($index)">×</button>
       {{ alert.msg }}
     </div>
-    <div class="table-responsive" data-ng-if="mainCtrl.filteredData.length > 0">
 
-      <qs-table></qs-table>
+    <br>
+    <br>
+    <div class="table-responsive">
 
-      <p class="text-center bold">{{ mainCtrl.filteredData.length }} contact{{ mainCtrl.filteredData.length > 1 ? 's' : '' }}</p>
+      <strong>Filter:</strong> </string><input type="text" ng-model="filterOptions.filterText" />
+      <br/>
+      <br/>
 
-      <qs-pagination></qs-pagination>
+      <div class="gridStyle" ng-grid="gridOptions"/>
 
     </div>
   </div>

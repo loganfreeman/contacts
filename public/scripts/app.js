@@ -3,7 +3,8 @@
 
     angular.module( 'angularContactsListApp', [
         'ngRoute',
-        'keepr'
+        'keepr',
+        'ngGrid'
     ] )
         .config( function($routeProvider) {
             $routeProvider
